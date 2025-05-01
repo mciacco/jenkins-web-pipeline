@@ -16,13 +16,8 @@ pipeline {
                     sh 'docker build -t $IMAGE_REPORT:latest ./report'
 
                     //login no Docker Hub com token
-                    withCredentials([usernamePassword(
-                        credentialsId:'docker-hub-token', 
-                        usernameVariable:'DOCKER_USER', 
-                        passwordVariable:'DOCKER_PASS')
-                        ]) {
-                            sh 'echo $DOCKER_PASS | 
-                            docker login -u $DOCKER_USER --password-stdin'
+                    withCredentials([usernamePassword(credentialsId:'docker-hub-token',usernameVariable:'DOCKER_USER',passwordVariable:'DOCKER_PASS')]) {
+                            sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                             sh 'docker push $IMAGE_WEB:latest'
                             sh 'docker push $IMAGE_REPORT:latest'
                     }
